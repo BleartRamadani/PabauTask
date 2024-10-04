@@ -1,9 +1,14 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const mysql = require('mysql2/promise'); // Using promise-based API
+const mysql = require('mysql2/promise');
 
 const app = express();
 const port = 5000;
+
+app.use(cors());
+
+app.use(bodyParser.json());
 
 const pool = mysql.createPool({
   host: 'mysql',
@@ -15,9 +20,6 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-app.use(bodyParser.json());
-
-// API endpoint to fetch bookings
 app.get('/api/bookings', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM bookings');
@@ -28,13 +30,13 @@ app.get('/api/bookings', async (req, res) => {
   }
 });
 
-// API endpoint to insert a booking
 app.post('/api/bookings', async (req, res) => {
   const { service, doctor_name, start_time, end_time, date } = req.body;
   const insertQuery = 'INSERT INTO bookings (service, doctor_name, start_time, end_time, date) VALUES (?, ?, ?, ?, ?)';
 
   try {
     await pool.query(insertQuery, [service, doctor_name, start_time, end_time, date]);
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');  // Add CORS header manually
     res.status(201).send('Booking inserted successfully');
   } catch (error) {
     console.error('Error inserting booking:', error);

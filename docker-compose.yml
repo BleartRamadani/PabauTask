@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  
   mysql:
     image: mysql:latest
     environment:
@@ -10,6 +11,8 @@ services:
       MYSQL_PASSWORD: my_password
     ports:
       - "3306:3306"
+    develop:
+      
     volumes:
         - ./backend/scripts:/docker-entrypoint-initdb.d
 

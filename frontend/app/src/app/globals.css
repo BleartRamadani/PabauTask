@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -16,18 +17,48 @@
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-box-shadow {
+  box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.2)
+}
+
+.div-grid {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+  margin-left: 0.5rem;
+}
+
+.first { grid-area: first;}
+.sec { grid-area: sec;}
+.third { grid-area: third;}
+.fourth { grid-area: fourth;}
+.fifth { grid-area: fifth;}
+
+@media (min-width: 1024px) {
+  .div-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: unset;
+    margin-top: 2rem;
+    grid-template-areas: 
+    "first third"
+    "sec fourth"
+    ". fifth";
   }
 }
